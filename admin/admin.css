@@ -1,0 +1,110 @@
+/* ============================================================
+   Hana Baraka — Admin/Backend-Styling
+   Bewusst schlicht und funktional gehalten — das ist ein internes
+   Werkzeug, keine Besucher-Seite, deshalb keine Markenfarben/-fonts
+   aus tokens.css nötig. Lesbarkeit und Klarheit für ein Formular mit
+   vielen kleinen Feldern stehen hier vorne an.
+   ============================================================ */
+
+*{ box-sizing:border-box; }
+html,body{
+  margin:0; padding:0;
+  background:#f4f1ea; color:#2b2620;
+  font-family:'Hanken Grotesk', sans-serif;
+  font-size:14px; line-height:1.4;
+}
+
+header{ padding:28px 32px 8px; }
+header h1{ margin:0 0 4px; font-size:22px; }
+header .sub{ margin:0; color:#6b6154; font-size:13px; }
+
+main, section.panel{
+  max-width:1000px; margin:0 auto;
+}
+
+.panel{
+  background:#fff; border:1px solid #e2dccb; border-radius:8px;
+  padding:20px 24px; margin:16px 32px;
+}
+
+.panel h2{ margin:0 0 10px; font-size:16px; }
+
+.panel-head{
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:10px; margin-bottom:6px;
+}
+
+.hint{ color:#6b6154; font-size:12.5px; margin:0 0 12px; }
+.hint a{ color:#274ede; }
+
+.hint-box{
+  background:#f7f4ec; border:1px solid #e2dccb; border-radius:6px;
+  padding:10px 16px; margin:0 0 14px; font-size:12.5px;
+}
+.hint-box ol{ margin:6px 0; padding-left:20px; }
+.hint-box li{ margin-bottom:4px; }
+
+.row{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:8px; }
+.row input[type="text"],
+.row input[type="password"]{
+  flex:1 1 240px; padding:9px 11px; border:1px solid #d8d0ba; border-radius:5px;
+  font-family:inherit; font-size:13px; background:#fdfcf8;
+}
+.row input[type="file"]{ flex:1 1 200px; font-size:12.5px; }
+
+.btn{
+  appearance:none; border:1px solid #2b2620; background:#fff; color:#2b2620;
+  padding:9px 16px; border-radius:5px; font-family:inherit; font-size:13px;
+  cursor:pointer; white-space:nowrap;
+}
+.btn:hover{ background:#f0ebe0; }
+.btn.primary{ background:#2b2620; color:#fff; }
+.btn.primary:hover{ background:#463f34; }
+.btn:disabled{ opacity:.5; cursor:default; }
+
+.status{ min-height:18px; font-size:12.5px; margin:6px 0 0; }
+.status.ok{ color:#1a7a3c; }
+.status.err{ color:#c23a2a; }
+
+.tabs{ display:flex; gap:6px; margin:16px 32px 0; }
+.tab-btn{
+  appearance:none; border:1px solid #e2dccb; border-bottom:none; background:#efe9db;
+  color:#6b6154; padding:10px 18px; border-radius:8px 8px 0 0; cursor:pointer;
+  font-family:inherit; font-size:13px;
+}
+.tab-btn.active{ background:#fff; color:#2b2620; font-weight:600; }
+main .panel:first-of-type{ margin-top:0; border-radius:0 8px 8px 8px; }
+
+/* ─── Tabellen ─────────────────────────────────────────────────── */
+.table-wrap{ overflow-x:auto; }
+table{ border-collapse:collapse; width:100%; min-width:720px; }
+th, td{ border:1px solid #e6e0d0; padding:5px 6px; text-align:left; vertical-align:middle; }
+th{ background:#f7f4ec; font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:#6b6154; }
+td input[type="text"], td input[type="number"]{
+  width:100%; min-width:70px; border:1px solid transparent; background:transparent;
+  padding:4px; font-family:inherit; font-size:12.5px; border-radius:3px;
+}
+td input[type="text"]:focus, td input[type="number"]:focus{
+  border-color:#274ede; background:#fff; outline:none;
+}
+td input[type="checkbox"]{ width:16px; height:16px; }
+.row-delete{
+  appearance:none; border:none; background:transparent; color:#c23a2a;
+  cursor:pointer; font-size:14px; padding:2px 6px;
+}
+.row-delete:hover{ background:#fbe6e2; border-radius:4px; }
+
+/* ─── Seite-Tab (beschriftete Formularfelder statt Tabelle) ───────────── */
+.field-row{ margin-bottom:14px; }
+.field-row label{
+  display:block; font-size:11px; text-transform:uppercase; letter-spacing:.04em;
+  color:#6b6154; margin-bottom:4px;
+}
+.field-row input[type="text"], .field-row textarea{
+  width:100%; padding:9px 11px; border:1px solid #d8d0ba; border-radius:5px;
+  font-family:inherit; font-size:13px; background:#fdfcf8;
+}
+.field-row textarea{ min-height:70px; resize:vertical; }
+.field-row input[type="text"]:focus, .field-row textarea:focus{
+  border-color:#274ede; outline:none; background:#fff;
+}

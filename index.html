@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hana Baraka</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="root">
+
+  <div id="loading">Loading …</div>
+
+  <div id="scrollwrap">
+    <div id="content">
+      <!-- Kacheln werden per app.js eingefügt -->
+      <div id="philosophy">
+        <!-- <div class="quote q1">placeholder: Every material carries a language. Every space holds a memory.</div>
+        <div class="quote q2">placeholder: Multidisciplinary designer & maker.
+          Architecture, visual design, illustration, textiles, and craft.</div>
+      </div>-->
+    </div>
+  </div>
+
+  <header>
+    <div class="wordmark" id="nav-home">
+      <div class="name">Hana Baraka</div>
+      <div class="arabic">بأيدي</div>
+    </div>
+    <nav>
+      <span id="nav-portfolio">Portfolio</span>
+      <span id="nav-workshop">Workshops</span>
+      <span id="nav-prints">Take Home</span>
+      <span id="nav-contact">Contact</span>
+    </nav>
+  </header>
+
+  <div id="filterbar">
+    <span class="lead">Take a print home —</span>
+    <div class="pill-group" id="theme-pills"></div>
+    <div class="pill-divider"></div>
+    <div class="pill-group" id="colour-pills"></div>
+  </div>
+
+  <div class="full-section" id="workshop-section">
+    <div class="inner">
+      <div style="flex:0 1 480px;min-width:260px;">
+        <div class="eyebrow">Workshops</div>
+        <h2 class="section-title" id="workshop-heading">Learn to make something by hand.</h2>
+        <p class="section-body" id="workshop-body">placeholder: Workshop details coming soon — small groups, slow making, materials included. Write to me if you'd like to be kept in the loop.</p>
+        <div class="links-col">
+          <a href="mailto:studio@hanamakes.example?subject=Workshops" id="workshop-email">studio@hanamakes.example</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="full-section" id="contact-section">
+    <div class="inner">
+      <div id="contact-portrait-frame">
+        <!-- Wenn das echte Portrait da ist: Datei nach images/hana-portrait.jpg legen,
+             dann ersetzt sich dieser Platzhalter automatisch (siehe app.js). -->
+        <span class="placeholder">Portrait folgt — Datei als<br><code>images/hana-portrait.jpg</code> ablegen</span>
+      </div>
+      <div style="flex:0 1 380px;min-width:260px;">
+        <div class="eyebrow">Contact</div>
+        <h2 class="section-title" id="contact-heading">Let's make something together.</h2>
+        <p class="section-body" id="contact-body">I take on commissions, collaborations and the occasional workshop — paintings, prints, woven things, and projects that start with a long conversation. If something here stays with you, write to me.</p>
+        <div class="links-col">
+          <a href="mailto:studio@hanamakes.example" id="contact-email">studio@hanamakes.example</a>
+          <a href="https://instagram.com/beh_eedy" target="_blank" rel="noopener" id="contact-instagram">@hana.makes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="overlay">
+    <div id="overlay-panel">
+      <div id="overlay-media"></div>
+      <div id="overlay-text">
+        <div id="overlay-overline"></div>
+        <h2 id="overlay-title"></h2>
+        <div id="overlay-meta"></div>
+        <p id="overlay-story"></p>
+        <div id="overlay-divider"></div>
+        <div id="overlay-shop">
+          <div class="price-row">
+            <span id="overlay-price"></span>
+            <span id="overlay-avail"></span>
+          </div>
+          <a class="enq" id="overlay-enquire" href="#">Enquire about this piece</a>
+        </div>
+        <div id="overlay-archive">From the archive — part of an ongoing project, not for sale.</div>
+      </div>
+      <div id="overlay-children"></div>
+      <button id="overlay-close" aria-label="Close">×</button>
+    </div>
+  </div>
+
+  <div id="edit-banner">
+    ✏ Edit Mode — Tiles verschieben
+    <button id="edit-reset">Reset</button>
+  </div>
+
+</div>
+
+<script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+/* ============================================================
+   Hana Baraka — Design Tokens
+   Quelle: Hana's Canvas Portfolio/tokens.css (1:1 übernommen,
+   das bleibt die Quelle der Wahrheit für Farben/Abstände).
+   ============================================================ */
+:root {
+  --color-cream:      #EADEBE;
+  --color-tan:        #eadebee8;
+  --color-salmon:     #B96D77;
+  --color-brown:      #755234;
+  --color-mustard:    #EC9011;
+  --color-orangered:  #F95721;
+  --color-red:        #D54126;
+  --color-cobalt:     #274EDE;
+
+  --c-bg:                var(--color-cream);
+  --c-surface:           var(--color-tan);
+  --c-heading:           var(--color-red);
+  --c-heading-accent:    var(--color-orangered);
+  --c-text:              var(--color-brown);
+  --c-text-muted:        var(--color-mustard);
+  --c-interactive:       var(--color-cobalt);
+  --c-interactive-hover: var(--color-cobalt);
+  --c-border:            var(--color-tan);
+
+  --space-3: 16px;
+  --space-4: 24px;
+}
+
+/* ============================================================
+   Basis / Reset
+   ============================================================ */
+*{ box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+html,body{ margin:0; padding:0; background:var(--c-bg); }
+a{ color:inherit; }
+
+/* ============================================================
+   Layout-Grundgerüst
+   ============================================================ */
+#root{
+  position:fixed; inset:0; overflow:hidden;
+  background:var(--c-bg);
+  font-family:'Hanken Grotesk',sans-serif;
+  color:var(--c-text);
+}
+
+/* Nur sichtbar, solange weder ein Cache noch eine frische CSV-Antwort da ist
+   (also praktisch nur beim allerersten Besuch ohne localStorage-Cache). */
+#loading{
+  position:fixed; inset:0; z-index:50;
+  display:none; align-items:center; justify-content:center;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:20px; color:var(--c-text-muted);
+  opacity:0; transition:opacity .3s ease;
+}
+#loading.visible{ display:flex; opacity:1; }
+
+#scrollwrap{
+  position:absolute; inset:0;
+  overflow-x:hidden;
+  overflow-y:hidden; /* wird per JS auf 'auto' gesetzt, wenn mode==='prints' */
+}
+#scrollwrap::-webkit-scrollbar{ width:9px; }
+#scrollwrap::-webkit-scrollbar-track{ background:transparent; }
+#scrollwrap::-webkit-scrollbar-thumb{ background:var(--c-border); border-radius:8px; }
+
+#content{ position:relative; width:100%; }
+
+/* ============================================================
+   Kacheln (Collage / Grid)
+   ============================================================ */
+.tile{
+  position:absolute;
+  background-size:cover;
+  background-position:center;
+  background-clip:padding-box;
+  box-shadow:0 7px 24px rgba(44,34,22,.20);
+  user-select:none;
+}
+.tile:hover{ box-shadow:0 18px 46px rgba(44,34,22,.40)!important; z-index:95!important; }
+.tile:hover .cap{ opacity:1!important; transform:translateY(0)!important; }
+
+.cap{
+  position:absolute; left:0; right:0; bottom:0;
+  display:flex; flex-direction:column; gap:1px;
+  padding:26px 12px 10px;
+  background:linear-gradient(transparent,rgba(26,20,12,.82));
+  opacity:0; transform:translateY(7px);
+  transition:opacity .3s ease,transform .3s ease;
+  pointer-events:none;
+}
+.cap .title{
+  font-family:'Cormorant Garamond',serif; font-weight:500;
+  font-size:20px; line-height:1.05; color:var(--c-bg);
+}
+.cap .sub{
+  font-family:'Hanken Grotesk',sans-serif; font-size:10.5px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--c-bg); opacity:.82;
+}
+
+.handle{
+  position:absolute; width:13px; height:13px; border-radius:50%;
+  background:var(--c-bg); border:2px solid #2B2620; cursor:grab; z-index:10;
+  box-shadow:0 1px 4px rgba(0,0,0,.35);
+}
+.handle.rotate{ top:-20px; left:50%; transform:translateX(-50%); }
+.handle.resize{
+  right:-6px; bottom:-6px; width:14px; height:14px;
+  border-radius:3px; cursor:se-resize; background:#F4ECDA;
+}
+.tile:not(.is-draggable) .handle{ display:none; }
+
+/* Video-Kacheln bekommen ein kleines Play-Dreieck, damit vor dem Klick klar
+   ist, dass sich ein Popup mit eingebettetem Video öffnet, kein Foto. */
+.tile.is-video::after{
+  content:''; position:absolute; top:50%; left:50%; width:0; height:0;
+  border-style:solid; border-width:14px 0 14px 22px;
+  border-color:transparent transparent transparent var(--c-bg);
+  transform:translate(-50%,-50%);
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));
+  pointer-events:none;
+}
+
+/* ============================================================
+   Philosophie-Texte (nur Home)
+   ============================================================ */
+#philosophy{
+  position:absolute; inset:0; z-index:70; pointer-events:none;
+  opacity:0; transition:opacity .55s ease;
+}
+#philosophy.visible{ opacity:1; }
+#philosophy .quote{
+  position:absolute; max-width:300px; padding:14px 18px;
+  background:var(--c-surface);
+  font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:100;
+  font-size:clamp(20px,2.1vw,15px); color:var(--c-text);
+}
+#philosophy .quote.q1{ left:5.5%; top:21%; }
+#philosophy .quote.q2{
+  right:6.5%; top:63%; max-width:288px; backdrop-filter:blur(3px);
+  font-size:clamp(25px,2vw,15px);
+}
+
+/* ============================================================
+   Header / Navigation
+   ============================================================ */
+header{
+  position:fixed; top:5%; left:0; right:0; z-index:120;
+  display:flex; align-items:center; flex-direction:column; gap:24px; flex-wrap:wrap;
+  padding:0px 40px 22px;
+  background:linear-gradient(180deg,var(--c-bg) 52%,transparent);
+  backdrop-filter:blur(2px);
+}
+.wordmark{ cursor:pointer; line-height:.92; display:flex; align-items:baseline; gap:24px; }
+.wordmark .name{
+  font-family:'Cormorant Garamond',sans-serif; font-size:clamp(38px,4.4vw,64px);
+  letter-spacing:.18em; text-transform:uppercase; color:var(--c-heading);
+}
+.wordmark .arabic{
+  font-family:'Cormorant Garamond',serif; font-size:clamp(24px,4.4vw,64px);
+  letter-spacing:.01em; color:var(--c-text);
+}
+nav{
+  display:flex; gap:64px; align-items:center; padding-top:5px;
+  font-family:'Hanken Grotesk',sans-serif; font-size:13.5px;
+  letter-spacing:.13em; text-transform:uppercase;
+}
+nav span{
+  cursor:pointer; padding-bottom:5px; transition:.2s ease;
+  color:var(--c-text); border-bottom:1.5px solid transparent;
+}
+nav span.active{ color:var(--c-heading-accent); border-bottom-color:var(--c-heading-accent); }
+
+/* ============================================================
+   Filter-Leiste (Take Home / prints)
+   ============================================================ */
+#filterbar{
+  position:fixed; top: 100px; left:0; right:0; z-index:210;
+  display:flex; flex-wrap:wrap; align-items:center; gap:4px;
+  padding:6px 40px 14px;
+  background:linear-gradient(180deg,var(--c-bg) 72%,transparent);
+  opacity:0; transform:translateY(-200px); pointer-events:none;
+  transition:.45s ease;
+  width: min(100%, 1000px);
+}
+#filterbar.visible{ opacity:1; transform:translateY(0); pointer-events:auto; }
+#filterbar .lead{
+  font-family:'Cormorant Garamond',serif; font-style:italic; font-size:19px;
+  color:var(--c-text-muted); padding-right:4px;
+}
+.pill-group{ display:flex; gap:9px; flex-wrap:wrap; align-items:center; }
+.pill{
+  font-family:'Hanken Grotesk',sans-serif; font-size:12px; letter-spacing:.06em;
+  padding:7px 14px; border-radius:40px; cursor:pointer; transition:.2s ease;
+  border:1px solid var(--c-border); background:transparent; color:var(--c-text);
+}
+.pill.active{ border-color:var(--c-text); background:var(--c-text); color:var(--c-bg); }
+.pill-divider{ width:1px; height:20px; background:var(--c-heading-accent); }
+
+/* ============================================================
+   Workshop / Contact (Vollbild-Sections)
+   ============================================================ */
+.full-section{
+  position:fixed; inset:0; z-index:90;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--c-bg);
+  opacity:0; pointer-events:none; transition:opacity .6s ease;
+}
+.full-section.visible{ opacity:1; pointer-events:auto; }
+.full-section .inner{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+  gap:clamp(28px,5vw,76px); max-width:1120px; width:100%; padding:40px;
+}
+.eyebrow{
+  font-family:'Hanken Grotesk',sans-serif; font-size:11.5px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--c-heading-accent); margin-bottom:14px;
+}
+.section-title{
+  margin:0 0 20px; font-family:'Cormorant Garamond',serif; font-weight:500;
+  font-size:clamp(34px,4vw,52px); line-height:1.04; color:var(--c-text);
+}
+.section-body{
+  margin:0 0 16px; font-family:'Cormorant Garamond',serif;
+  font-size:clamp(19px,1.5vw,23px); line-height:1.5; color:var(--c-text); max-width:42ch;
+}
+.links-col{
+  display:flex; flex-direction:column; gap:7px; margin-top:26px;
+  font-family:'Hanken Grotesk',sans-serif; font-size:15px;
+}
+.links-col a{
+  color:var(--c-interactive); text-decoration:none; width:fit-content;
+  border-bottom:1px solid var(--c-interactive); padding-bottom:2px;
+}
+#contact-portrait-frame{
+  flex:0 1 380px; height:min(74vh,560px); min-width:260px;
+  box-shadow:0 22px 60px rgba(44,34,22,.3); border:7px solid var(--c-bg);
+  background:var(--c-surface); overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+#contact-portrait-frame img{
+  width:100%; height:100%; object-fit:cover;
+  filter:grayscale(1) contrast(1.03); display:block;
+}
+#contact-portrait-frame .placeholder{
+  font-family:'Hanken Grotesk',sans-serif; font-size:12px; color:var(--c-text-muted);
+  text-align:center; padding:0 20px;
+}
+
+/* ============================================================
+   Detail-Overlay (Lightbox)
+   ============================================================ */
+#overlay{
+  position:fixed; inset:0; z-index:200;
+  display:flex; align-items:center; justify-content:center; padding:24px;
+  background:rgba(24,18,10,.84); backdrop-filter:blur(6px);
+  opacity:0; pointer-events:none; transition:opacity .35s ease;
+}
+#overlay.visible{ opacity:1; pointer-events:auto; }
+#overlay-panel{
+  position:relative; display:flex; flex-wrap:wrap; gap:clamp(20px,3vw,48px);
+  max-width:min(1080px,92vw); max-height:90vh; overflow:auto;
+  background:var(--c-bg); padding:clamp(20px,3vw,40px);
+  box-shadow:0 30px 90px rgba(20,14,8,.5);
+}
+#overlay-media{
+  flex:1 1 360px; min-width:280px; display:flex; align-items:center; justify-content:center;
+  background:var(--c-surface); border:6px solid var(--c-bg); max-height:78vh; overflow:hidden;
+}
+#overlay-media img{ max-width:100%; max-height:76vh; object-fit:contain; display:block; }
+#overlay-media iframe{ width:min(640px,86vw); aspect-ratio:16/9; border:0; display:block; }
+#overlay-text{
+  flex:1 1 300px; min-width:260px; display:flex; flex-direction:column;
+  justify-content:center; padding:6px 8px;
+}
+#overlay-overline{
+  font-family:'Hanken Grotesk',sans-serif; font-size:11px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--c-heading-accent); margin-bottom:12px;
+}
+#overlay-title{
+  margin:0 0 8px; font-family:'Cormorant Garamond',serif; font-weight:600;
+  font-size:clamp(34px,3.6vw,50px); line-height:1.02; color:var(--c-text);
+}
+#overlay-meta{
+  font-family:'Hanken Grotesk',sans-serif; font-size:13px; letter-spacing:.04em;
+  color:var(--c-text-muted); margin-bottom:22px;
+}
+#overlay-story{
+  margin:0; font-family:'Cormorant Garamond',serif; font-size:clamp(21px,1.7vw,26px);
+  line-height:1.5; color:var(--c-text); max-width:44ch;
+}
+#overlay-divider{ height:1px; background:var(--c-border); margin:28px 0; }
+#overlay-shop{ display:none; }
+#overlay-shop.visible{ display:block; }
+#overlay-shop .price-row{ display:flex; align-items:baseline; gap:12px; margin-bottom:20px; }
+#overlay-price{ font-family:'Cormorant Garamond',serif; font-size:32px; color:var(--c-text); }
+#overlay-avail{
+  font-family:'Hanken Grotesk',sans-serif; font-size:12px; letter-spacing:.06em; color:var(--c-text-muted);
+}
+.enq{
+  display:inline-block; font-family:'Hanken Grotesk',sans-serif; font-size:13px;
+  letter-spacing:.14em; text-transform:uppercase; padding:14px 26px;
+  border:1px solid var(--c-text); color:var(--c-text); text-decoration:none;
+  transition:background .25s ease,color .25s ease;
+}
+.enq:hover{ background:var(--c-text)!important; color:var(--c-bg)!important; }
+#overlay-archive{
+  display:none; font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:20px; color:var(--c-text-muted);
+}
+#overlay-archive.visible{ display:block; }
+#overlay-children{
+  display:none; flex:0 0 100%; flex-direction:column; gap:12px;
+  padding-top:8px; border-top:1px solid var(--c-border);
+}
+#overlay-children.visible{ display:flex; }
+
+/* "Weitere Ansichten"-Knopf: Detailbilder bleiben eingeklappt, bis man
+   draufklickt — genau der Effekt, den der Shop-Bereich (Take Home) haben
+   soll: erst das Gesamtbild, Details erst nach Klick. */
+.gallery-toggle{
+  appearance:none; border:1px solid var(--c-text); background:transparent;
+  color:var(--c-text); font-family:'Hanken Grotesk',sans-serif; font-size:12px;
+  letter-spacing:.08em; padding:8px 16px; cursor:pointer; align-self:flex-start;
+  transition:background .2s ease,color .2s ease;
+}
+.gallery-toggle:hover{ background:var(--c-text); color:var(--c-bg); }
+.gallery-strip{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:10px;
+  max-height:0; overflow:hidden; opacity:0;
+  transition:max-height .35s ease,opacity .35s ease,margin-top .35s ease;
+}
+.gallery-strip.open{ max-height:600px; opacity:1; overflow-y:auto; margin-top:12px; }
+.gallery-thumb{ position:relative; cursor:pointer; overflow:hidden; }
+.gallery-thumb img{ width:100%; display:block; transition:transform .25s ease; }
+.gallery-thumb:hover img{ transform:scale(1.05); }
+.gallery-thumb.is-video::after{
+  content:''; position:absolute; top:50%; left:50%; width:0; height:0;
+  border-style:solid; border-width:9px 0 9px 14px;
+  border-color:transparent transparent transparent #fff;
+  transform:translate(-50%,-50%);
+  filter:drop-shadow(0 1px 4px rgba(0,0,0,.5));
+}
+#overlay-close{
+  position:absolute; top:12px; right:14px; width:38px; height:38px; border:none;
+  background:transparent; font-family:'Cormorant Garamond',serif; font-size:34px;
+  line-height:1; color:var(--c-text); cursor:pointer;
+}
+
+/* ============================================================
+   Edit-Mode-Banner (?edit=hanaedits)
+   ============================================================ */
+#edit-banner{
+  display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  z-index:500; align-items:center; gap:10px; padding:8px 20px;
+  background:rgba(43,38,32,.92); color:var(--c-bg);
+  font-family:'Hanken Grotesk',sans-serif; font-size:12px; letter-spacing:.08em;
+  border-radius:20px; backdrop-filter:blur(6px); white-space:nowrap;
+}
+#edit-banner.visible{ display:flex; }
+#edit-banner button{
+  appearance:none; border:1px solid rgba(244,236,218,.35); background:transparent;
+  color:var(--c-bg); font-family:'Hanken Grotesk',sans-serif; font-size:11px;
+  letter-spacing:.08em; padding:3px 12px; border-radius:10px; cursor:pointer; margin-left:6px;
+}

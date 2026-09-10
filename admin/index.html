@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hana Baraka — Website-Backend</title>
+
+<!--
+  ============================================================================
+  Website-Backend (Admin-Seite)
+
+  Diese Seite ersetzt das Google Sheet als Ort, an dem Werk- und Bildinfos
+  gepflegt werden. Sie ist selbst wieder nur eine ganz normale statische
+  Seite (kein eigener Server!) — "Speichern" funktioniert trotzdem, weil sie
+  direkt mit der GitHub-API spricht und Änderungen als Commits ins Repo
+  schreibt. Siehe admin.js für die Details und Erklärungen dazu, wie das ohne
+  Server geht.
+
+  WICHTIG: Diese Seite ist bewusst NICHT über den Haupt-Nav verlinkt — sie
+  ist ein internes Werkzeug für Hana/Charlotte, kein öffentlicher Seitenteil.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<header>
+  <h1>Hana Baraka — Website-Backend</h1>
+  <p class="sub">Werke, Bilder und Platzierung pflegen — ohne Excel/Google Sheet.</p>
+</header>
+
+<!-- ─── Zugang ──────────────────────────────────────────────────────── -->
+<section id="auth-panel" class="panel">
+  <h2>Zugang</h2>
+  <p class="hint">
+    Zum Speichern braucht diese Seite einen persönlichen GitHub-Zugriffstoken
+    (nur einmal einrichten, bleibt danach in diesem Browser gespeichert).
+    <a href="#" id="token-help-toggle">Wie bekomme ich einen Token?</a>
+  </p>
+  <div id="token-help" class="hint-box" hidden>
+    <ol>
+      <li>Auf github.com einloggen → oben rechts Profilbild → <em>Settings</em></li>
+      <li>Ganz unten links → <em>Developer settings</em> → <em>Personal access tokens</em> → <em>Fine-grained tokens</em></li>
+      <li><em>Generate new token</em> → Namen vergeben, Ablaufdatum setzen</li>
+      <li>Bei <em>Repository access</em> → <em>Only select repositories</em> → genau dieses Hana-Repo auswählen</li>
+      <li>Bei <em>Permissions</em> → <em>Repository permissions</em> → <em>Contents</em> auf <em>Read and write</em> stellen</li>
+      <li>Token erzeugen, kopieren (wird nur einmal angezeigt!) und unten einfügen</li>
+    </ol>
+  </div>
+  <div class="row">
+    <input type="password" id="token-input" placeholder="GitHub-Token einfügen …" autocomplete="off">
+    <button id="connect-btn" class="btn primary">Verbinden</button>
+    <button id="disconnect-btn" class="btn" hidden>Trennen</button>
+  </div>
+  <p id="auth-status" class="status"></p>
+</section>
+
+<!-- ─── Hauptbereich (erst sichtbar nach Verbindung) ───────────────────── -->
+<main id="app" hidden>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="werke">Werke</button>
+    <button class="tab-btn" data-tab="medien">Bilder &amp; Medien</button>
+    <button class="tab-btn" data-tab="seite">Seiten-Texte</button>
+  </nav>
+
+  <!-- ─── Tab: Werke (stuecke.csv) ─────────────────────────────────── -->
+  <section id="tab-werke" class="tab-panel panel">
+    <div class="panel-head">
+      <h2>Werke</h2>
+      <div>
+        <button id="werke-add-btn" class="btn">+ Neues Werk</button>
+        <button id="werke-save-btn" class="btn primary">Werke speichern</button>
+      </div>
+    </div>
+    <p class="hint">Ein Werk = ein Titel/Preis/Story-Eintrag. Bilder dazu kommen im Tab „Bilder &amp; Medien“ — jedes Werk kann mehrere Bilder haben.</p>
+    <div id="werke-table" class="table-wrap"></div>
+    <p id="werke-status" class="status"></p>
+  </section>
+
+  <!-- ─── Tab: Medien (medien.csv + Bild-Upload) ──────────────────────── -->
+  <section id="tab-medien" class="tab-panel panel" hidden>
+    <h2>Neues Bild hochladen</h2>
+    <p class="hint">
+      Das Bild wird automatisch verkleinert und komprimiert (wie alle bisherigen Bilder der Seite),
+      danach erscheint es als neue Zeile unten in der Tabelle — dort trägst du ein, zu welchem Werk
+      es gehört und wo es erscheinen soll.
+    </p>
+    <div class="row">
+      <input type="text" id="upload-media-id" placeholder="Bild-ID, z.B. flowervase_2">
+      <input type="file" id="upload-file" accept="image/*">
+      <button id="upload-btn" class="btn primary">Hochladen</button>
+    </div>
+    <p id="upload-status" class="status"></p>
+
+    <div class="panel-head">
+      <h2>Medien</h2>
+      <div>
+        <button id="medien-add-btn" class="btn">+ Neue Zeile (z.B. Video)</button>
+        <button id="medien-save-btn" class="btn primary">Medien speichern</button>
+      </div>
+    </div>
+    <p class="hint">
+      „home/portfolio/shop“ bestimmen, wo ein Bild als eigene Kachel auftaucht. „role“ = cover (Hauptbild im Popup) oder detail (weitere Ansicht). Bei Videos: type=video und die YouTube-Video-ID bei video_id eintragen.
+    </p>
+    <div id="medien-table" class="table-wrap"></div>
+    <p id="medien-status" class="status"></p>
+  </section>
+
+  <!-- ─── Tab: Seite (texte.csv — feste Seitentexte wie Workshop/Contact) ─── -->
+  <section id="tab-seite" class="tab-panel panel" hidden>
+    <div class="panel-head">
+      <h2>Seiten-Texte</h2>
+      <button id="seite-save-btn" class="btn primary">Seiten-Texte speichern</button>
+    </div>
+    <p class="hint">
+      Texte, die fest auf der Seite stehen (Workshop-Abschnitt, Contact-Abschnitt, Navigation, Instagram) —
+      unabhängig von den einzelnen Werken oben. Änderungen hier wirken sich auf der Live-Seite aus,
+      sobald sie neu geladen wird.
+    </p>
+    <div id="seite-fields"></div>
+    <p id="seite-status" class="status"></p>
+  </section>
+
+</main>
+
+<datalist id="piece-id-options"></datalist>
+
+<script src="admin.js"></script>
+</body>
+</html>

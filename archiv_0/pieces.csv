@@ -1,0 +1,24 @@
+id,home,portfolio,shop,title,medium,year,place,story,aspect,featured,price,theme,colour,parent
+Toshka_0,TRUE,TRUE,FALSE,Toshka's Mirage - From Vision to Void / Bread and Bloom,photo,2025,"Royal College of Art, London","Bread & Bloom investigates Egypt’s abandoned Toshka desert reclamation project, exploring themes of environmental transformation, systemic failure, and resilience. The project reimagines this desert landscape through participatory design, working with the concept of a fictional women farmers’ collective to test sustainable agricultural and architectural strategies. Using tools such as 3D modelling, animation, and narrative storytelling, the work examines how infrastructure, ecology, and community intersect, offering an alternative vision for a site shaped by both ambition and collapse.",aspect,,,,,
+Toshka_1,FALSE,FALSE,FALSE,,,,,,,,,,,Toshka_0
+Toshka_2,FALSE,FALSE,FALSE,,,,,,,,,,,Toshka_0
+Toshka_3,FALSE,FALSE,FALSE,,,,,,,,,,,Toshka_0
+Toshka_4,FALSE,FALSE,FALSE,,,,,,,,,,,Toshka_0
+Toshka_5,FALSE,FALSE,FALSE,,,,,,,,,,,Toshka_0
+Toshka_6,FALSE,FALSE,FALSE,,,,,,,,,,,Toshka_0
+Toshka_7,FALSE,FALSE,FALSE,,,,,,,,,,,Toshka_0
+Toshka_8,FALSE,FALSE,FALSE,,,,,,,,,,,Toshka_0
+VeiledThreads_0,TRUE,TRUE,FALSE,"Veiled Threads, Unveiled Stories",photo,2025,"Royal College of Art, London",,aspect,,,,,
+VeiledThreads_1,FALSE,FALSE,FALSE,,,,,,,,,,,VeiledThreads_0
+VeiledThreads_2,FALSE,FALSE,FALSE,,,,,,,,,,,VeiledThreads_0
+VeiledThreads_3,FALSE,FALSE,FALSE,,,,,,,,,,,VeiledThreads_0
+crochet_0,TRUE,FALSE,FALSE,Craft Forward - Knit for London,,,,,,,,,,
+craftforward_0,FALSE,FALSE,FALSE,,,,,,,,,,,craftforward_1
+craftforward_1,TRUE,FALSE,FALSE,Craft Forward - Knit for London,,,,,,,,,,
+craftforward_2,FALSE,FALSE,FALSE,,,,,,,,,,,craftforward_1
+craftforward_3,FALSE,FALSE,FALSE,,,,,,,,,,,craftforward_1
+craftforward_4,FALSE,FALSE,FALSE,,,,,,,,,,,craftforward_1
+craftforward_5,FALSE,FALSE,FALSE,,,,,,,,,,,craftforward_1
+flowervase_0,TRUE,FALSE,TRUE,,,,,,,,,,,
+flowervase_1,FALSE,FALSE,FALSE,,,,,,,,,,,
+hana-portrait.png,FALSE,FALSE,FALSE,,,,,,,,,,,
